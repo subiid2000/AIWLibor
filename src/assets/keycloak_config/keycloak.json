@@ -1,0 +1,12 @@
+{
+    "realm": "AIwareContracts",
+    "auth-server-url": "http://10.60.8.62:8080/auth",
+    "ssl-required": "external",
+    "resource": "frontend",
+    "verify-token-audience": true,
+    "credentials": {
+      "secret": "4642a6e2-1c7e-4189-bf7c-23b8944d66cd"
+    },
+    "use-resource-role-mappings": true,
+    "confidential-port": 0
+  }
