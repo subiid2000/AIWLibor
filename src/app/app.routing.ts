@@ -5,6 +5,8 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { AuthGuardService as AuthGuard } from './core/guard/auth-guard.service';
 import { HelpComponent } from './views/help/help.component';
+import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
+import { from } from 'rxjs';
 const appRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
@@ -13,7 +15,8 @@ const appRoutes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'help', component: HelpComponent, canActivate: [AuthGuard] },
-      { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }]
+      { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+      { path: 'contract-dashboard', component: ContractDashboardComponent, canActivate: [AuthGuard] }]
   }
 ];
 
