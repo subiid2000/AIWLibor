@@ -19,6 +19,7 @@ import { ConfigurationsService } from 'src/services';
 import { KeycloakService } from './core/auth/keycloak.service';
 import { AuthGuardService } from './core/guard/auth-guard.service';
 import { SecuredHttpInterceptor } from './core/interceptor/secured-http.interceptor';
+import { HelpComponent } from './views/help/help.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SecuredHttpInterceptor } from './core/interceptor/secured-http.intercep
     FooterComponent,
     SidebarComponent,
     NavbarComponent,
-    MsgiconbtnComponent
+    MsgiconbtnComponent,
+    HelpComponent
   ],
   imports: [
     HttpClientModule,

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 export const ROUTES = [
   { path: '/dashboard', title: 'Home', icon: 'dashboard', children: null },
-  { path: '/dashboard', title: 'My Work', icon: 'dashboard', children: null },
-  { path: '/dashboard', title: 'Upload Contract', icon: 'dashboard', children: null },
-  { path: '/dashboard', title: 'Train New Topic', icon: 'dashboard', children: null },
-  { path: '/dashboard', title: 'Help', icon: 'dashboard', children: null },
-  { path: '/dashboard', title: 'About', icon: 'dashboard', children: null }
+  { path: '/help', title: 'My Work', icon: 'dashboard', children: null },
+  { path: '/help', title: 'Upload Contract', icon: 'dashboard', children: null },
+  { path: '/help', title: 'Train New Topic', icon: 'dashboard', children: null },
+  { path: '/help', title: 'Help', icon: 'dashboard', children: null },
+  { path: '/help', title: 'About', icon: 'dashboard', children: null }
 ];
 
 @Component({
