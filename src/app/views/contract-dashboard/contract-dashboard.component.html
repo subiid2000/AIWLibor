@@ -1,0 +1,224 @@
+<div class="animated fadeIn container-fluid mt-4 mb-4 p-1-sm">
+  <div class="card">
+    <div class="card-header">
+      <div class="col-md-10 col-xs-12 p-0">
+
+        <div class="form-group dashboardSearch">
+          <div class="md-input">
+            <input class="md-form-control" [(ngModel)]="searchText" (keyup.enter)="searchContract()" name="search" autocomplete="name"
+              required="" type="text">
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Search</label>
+            <button type="button" class="input-group-text searchIco">
+              <i (click)="searchContract()" class="fa fa-search"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-2 col-xs-12 pt-1 p-0">
+        <button class="btn btn-brand btn-sm pull-right btn-success btn-dashboardUpload" type="button" (click)="openDialog()">
+          <i class="fa fa-plus font-1xm"></i>
+          <span> Upload &nbsp;</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="!loading" class="card-body">
+      <div class="row">
+        <div class="col-md-4 col-xs-12">
+          <div class="card text-white bg-total">
+            <div class="card-body p-35">
+              <div class="text-value">{{100 + dashboardData?.contract_total_count}}</div>
+              <div>Total Contracts</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="card text-white bg-progress">
+            <div class="card-body p-35">
+              <div class="text-value">{{dashboardData?.contract_pending_count}}</div>
+              <div>In Progress</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="card text-white bg-completed">
+            <div class="card-body p-35">
+              <div class="text-value">{{100 + dashboardData?.contract_completed_count}}</div>
+              <div>Completed</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+
+          <div>
+            <div class="row">
+              <div class="col-lg-12 p-0">
+                <div class="card-header mb-3 alert-info bg-none">
+                  <label *ngIf="searchText === ''">
+                    <i class="fa fa-bandcamp" aria-hidden="true"></i> Recently Updated</label>
+                  <label *ngIf="searchText !== ''">
+                    <i class="fa fa-search" aria-hidden="true"></i> Search Result</label>
+                </div>
+              </div>
+              <div *ngIf="recentlyUpdated?.length > 0;else noDataTmplt" class="col-lg-12 dCards p-0-sm">
+                <div *ngFor="let item of recentlyUpdated" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-1-sm">
+                  <div class="card shadow">
+                     <i (click)="removeContractById(item.id, item.contract_name)" class="icon-trash icon pull-right"></i>
+                    <div class="card-body p-1-sm" [ngClass]="item.status !== 1 ? 'cursorNotAllow': ''" [routerLink]="item.status == 1 ? ['/documents/insights/'+item.id] : []">
+
+
+                      <h5 class="card-title mb-0 text-left">
+                        <font>
+                          <i class="fa fa-folder-open fa-lg"></i> {{item.contract_name}}</font>
+                      </h5>
+
+                      <div class="toolbox">
+                        <i class="icon-info icons d-block pull-right"></i>
+                        <div class="toolboxfloat">
+                          <h2>
+                            <i class="fa fa-calendar" aria-hidden="true"></i> {{item.created_date | date:'MMM dd yyyy'}} &nbsp;
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{item.created_date | date:'h:mm a'}}</h2>
+                          <hr>
+                          <span>Pending
+                            <b>{{item.pending_count}}</b> &nbsp; Completed
+                            <b>{{item.completed_count}}</b> &nbsp; Total Files
+                            <b>{{item.total_count}}</b>
+                          </span>
+                        </div>
+
+                      </div>
+                      <i *ngIf="item.status == 1" title="Completed" class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+                      <i *ngIf="item.status !== 1" title="Pending" class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>
+                      <span class="cardDateTime">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> {{item.total_count}} Pages &nbsp;
+                        <i class="fa fa-calendar" aria-hidden="true"></i> {{item.created_date | date:'MMM dd yyyy'}}</span>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': item.progressbar + '%' }">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="searchText === ''" class="row">
+              <div class="col-lg-12 p-0">
+                <div class="card-header mb-3 alert-info bg-none">
+                  <label class="mb-0">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i> Contracts List</label>
+                  <div class="card-header-actions">
+                    <a href="javascript:void()" routerLink='/documents/insights' class="btn-setting">
+                      <i class="fa fa-list-ul" aria-hidden="true"></i>
+                    </a>
+                  </div>
+
+
+
+                </div>
+              </div>
+
+              <div *ngIf="completedFiles?.length > 0;else noDataTmplt" class="col-lg-12 dCards p-0-sm">
+                <div *ngFor="let item of completedFiles" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-1-sm">
+                  <div class="card shadow">
+                    <i (click)="removeContractById(item.id, item.contract_name)" class="icon-trash icon pull-right"></i>
+                    <div class="card-body p-1-sm" [ngClass]="item.status !== 1 ? 'cursorNotAllow': ''" [routerLink]="item.status == 1 ? ['/documents/insights/'+item.id] : []">
+                      <h5 class="card-title mb-0 text-left">
+                        <font>
+                          <i class="fa fa-folder-open fa-lg"></i> {{item.contract_name}}</font>
+                      </h5>
+                      <div class="toolbox">
+                        <i class="icon-info icons d-block pull-right"></i>
+                        <div class="toolboxfloat">
+                          <h2>
+                            <i class="fa fa-calendar" aria-hidden="true"></i> {{item.created_date | date:'MMM dd yyyy'}} &nbsp;
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{item.created_date | date:'h:mm a'}}</h2>
+                          <hr>
+                          <span>Pending
+                            <b>{{item.pending_count}}</b> &nbsp; Completed
+                            <b>{{item.completed_count}}</b> &nbsp; Total Files
+                            <b>{{item.total_count}}</b>
+                          </span>
+                        </div>
+                      </div>
+                      <i *ngIf="item.status == 1" title="Completed" class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+                      <i *ngIf="item.status !== 1" title="Pending" class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>
+                      <span class="cardDateTime">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> {{item.total_count}} Pages &nbsp;
+                        <i class="fa fa-calendar" aria-hidden="true"></i> {{item.created_date | date:'MMM dd yyyy'}}</span>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': item.progressbar + '%' }">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                  <div class="">
+                    <div class="card-body">
+                      <h6 class="card-title mb-0">
+                        <a href="javascript:void()" routerLink='/documents/insights'> View More >> </a>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div *ngIf="loading" class="row">
+    <div class="col-md-12">
+      <div class="data-load p-3">
+        <div class="checkright text-center">
+          <div class="alert alert-success in alert-dismissible">
+            <strong>
+                <img src="assets/img/loader.gif" width="80px"/>
+            </strong>
+            <br> <br> Fetching Jobs
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noDataTmplt>
+    <div class="col-md-12">
+      <div class="no-data-fou p-3">
+        <div class="checkright text-center">
+          <div class="alert alert-success in alert-dismissible">
+            <strong>
+                <i class="icon-rocket icons font-2xl d-block mt-4"></i>
+            </strong>
+            <br> No jobs found
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+<ng-template #uploadFilesModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Upload Contracts</h4>
+    <button class="close" type="button" (click)="onCloseDialog()" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <app-upload-files (onSaved)="onSaved($event)"></app-upload-files> -->
+  </div>
+</ng-template>
+
