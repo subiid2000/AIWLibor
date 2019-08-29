@@ -24,6 +24,8 @@ import { ContractDashboardComponent } from './views/contract-dashboard/contract-
 import { ConfirmationDialogComponent } from './containers/confirmation-dialog/confirmation-dialog.component';
 import { BsModalService, BsModalRef, ModalModule, TooltipModule, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { ConfirmationDialogService } from './containers/confirmation-dialog/confirmation-dialog.service';
+import { UploadFilesComponent } from './views/upload-files/upload-files.component';
+import { NgSelectModule, SELECTION_MODEL_FACTORY } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ConfirmationDialogService } from './containers/confirmation-dialog/conf
     MsgiconbtnComponent,
     HelpComponent,
     ContractDashboardComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    UploadFilesComponent
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   imports: [
@@ -53,7 +56,8 @@ import { ConfirmationDialogService } from './containers/confirmation-dialog/conf
     MatRadioModule,
     MatInputModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgSelectModule
   ],
   providers: [ConfigurationsService, ConfirmationDialogService, PositioningService, ComponentLoaderFactory, ToasterService, KeycloakService, BsModalService,
     AuthGuardService, BsModalRef,  { provide: 'Window',  useValue: window },
