@@ -26,6 +26,8 @@ import { BsModalService, BsModalRef, ModalModule, TooltipModule, ComponentLoader
 import { ConfirmationDialogService } from './containers/confirmation-dialog/confirmation-dialog.service';
 import { UploadFilesComponent } from './views/upload-files/upload-files.component';
 import { NgSelectModule, SELECTION_MODEL_FACTORY } from '@ng-select/ng-select';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
+
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { NgSelectModule, SELECTION_MODEL_FACTORY } from '@ng-select/ng-select';
     MatInputModule,
     MatMenuModule,
     MatCheckboxModule,
-    NgSelectModule
+    NgSelectModule,
+    FileUploadModule
   ],
   providers: [ConfigurationsService, ConfirmationDialogService, PositioningService, ComponentLoaderFactory, ToasterService, KeycloakService, BsModalService,
     AuthGuardService, BsModalRef,  { provide: 'Window',  useValue: window },
