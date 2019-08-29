@@ -21,6 +21,7 @@ import { AuthGuardService } from './core/guard/auth-guard.service';
 import { SecuredHttpInterceptor } from './core/interceptor/secured-http.interceptor';
 import { HelpComponent } from './views/help/help.component';
 import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
+import { ConfirmationDialogComponent } from './containers/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,10 @@ import { ContractDashboardComponent } from './views/contract-dashboard/contract-
     NavbarComponent,
     MsgiconbtnComponent,
     HelpComponent,
-    ContractDashboardComponent
+    ContractDashboardComponent,
+    ConfirmationDialogComponent
   ],
+  entryComponents: [ ConfirmationDialogComponent ],
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
