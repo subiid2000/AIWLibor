@@ -24,7 +24,6 @@ export class KeycloakService {
                     KeycloakService.auth.registerUrl = KeycloakService.auth.authz.createRegisterUrl();
                     // tslint:disable-next-line:max-line-length
                     KeycloakService.auth.logoutUrl = keycloakAuth.authServerUrl + '/realms/' + environment.keycloakRealm + '/protocol/openid-connect/logout?redirect_uri=' + environment.baseUrl + '/dashboard';
-
                     resolve();
                 } )
                 .error(() => {
@@ -113,5 +112,8 @@ export class KeycloakService {
      */
     static createRegisterUrl() {
         return KeycloakService.auth.registerUrl;
+    }
+    static loadUserProfile() {
+       console.log(KeycloakService.auth.authz.idTokenParsed);
     }
 }

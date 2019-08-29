@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from 'src/services';
 import { ToasterService } from 'angular2-toaster';
 import { DomSanitizer } from '@angular/platform-browser';
+import { KeycloakService } from 'src/app/core/auth/keycloak.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,9 @@ export class DashboardComponent implements OnInit {
     private toasterService: ToasterService) { }
 
   ngOnInit() {
+  if (KeycloakService.isLogged()) {
+      KeycloakService.loadUserProfile();
+    }
   }
 
   changeImageFile(event) {
