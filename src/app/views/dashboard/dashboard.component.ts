@@ -1,133 +1,96 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from 'src/services';
-import { ToasterService } from 'angular2-toaster';
-import { DomSanitizer } from '@angular/platform-browser';
-import { KeycloakService } from 'src/app/core/auth/keycloak.service';
-import { reduxServices } from 'src/app/store/methods/store_methods.services';
-import { ACTION_LOGIN } from 'src/app/store/actions/storeActions';
-import { UserViewModel } from 'src/models/user.model';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/Operators';
-
+import { Color } from 'ng2-charts';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  private unsubscribe: Subject<any> = new Subject();
-  processing = false;
-  imageFile: File;
-  fileName: any = null;
-  uploadStart = false;
-  uploading = false;
-  startUploading = 1;
-  showDetails = false;
-  panCardDetails: any;
-  previewImage: any = '';
-  orginalImage: any;
-  processedImage: any = '';
-  jsonData: any;
-  userDetails: UserViewModel;
-  appState: any;
-  constructor(private apiService: APIService,
-    private domSanitizer: DomSanitizer,
-    private stateService: reduxServices,
-    private toasterService: ToasterService) {
-      this.stateService.getLoginState().pipe(takeUntil(this.unsubscribe)).subscribe(state => {
-        this.appState = state;
-      });
-     }
+  // Pie
+  public pieChartLabels: string[] = ['Impacted', 'Not Impacted'];
+  public pieChartData: number[] = [65, 35];
+  public pieChartColors: Array<any> = [
+    {
+      backgroundColor: ['#80d463', '#4b9c2e', '#356b22']
+    }];
+  public pieChartType = 'pie';
+  pieChartposition: any = {
+    legend: {
+      position: 'bottom', labels: {
+        fontSize: 10,
+        usePointStyle: true
+      }
+    },
+  };
+
+  // barChart one
+  public barChartOptions: any = {
+    scaleShowVerticalLines: false,
+    responsive: true,
+    legend: {
+      position: 'bottom', labels: {
+        fontSize: 10,
+        usePointStyle: true
+      }
+    },
+    scales: {
+      xAxes: [
+        {
+          display: true,
+          ticks: {
+            callback: function (value) {
+              return value.substr(0, 6) + '..'; // truncate
+            },
+          }
+        }
+      ]
+    },
+    tooltips: {
+      callbacks: {
+        title: function (tooltipItems, data) {
+          const idx = tooltipItems[0].index;
+          return data.labels[idx]; // do something with title
+        }
+      }
+    },
+  };
+  public barChartColors: Color[] = [
+    { backgroundColor: '#4b9c2e' },
+    { backgroundColor: '#80d463' }
+  ];
+
+  public barChartLabels: string[] = ['NGen Enterprise', 'Game Technology', 'TAG Corp', 'New LLC'];
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData: any[] = [
+    { data: [80, 75, 96, 71], label: 'Complete', stack: 'a' },
+    { data: [65, 25, 64, 51], label: 'Active', stack: 'a' }
+  ];
+
+  public barChartColors_s: Color[] = [
+    { backgroundColor: '#4b9c2e' },
+    { backgroundColor: '#80d463' }
+  ];
+
+  // barChart Two
+  public barChartLabels_s: string[] = ['Loan agreement', 'Securities', 'Derivatives', 'Credit agreement'];
+  public barChartData_s: any[] = [
+    { data: [76, 103, 86, 57], label: 'Complete', stack: 'a' },
+    { data: [49, 45, 33, 78], label: 'Active', stack: 'a' }
+  ];
+
+  constructor() { }
 
   ngOnInit() {
-    console.log(this.appState);
+  }
+  // events
+  public chartClicked(e: any): void {
+
   }
 
-  changeImageFile(event) {
-    this.processing = true;
-    const self = this;
-    const file = event.target.files[0];
-    this.fileName = file.name;
-    this.imageFile = file;
-    this.showDetails = false;
-    const reader = new FileReader();
-    reader.readAsDataURL(file); // read file as data url
-    reader.onload = (event_new: any) => { // called once readAsDataURL is completed
-      this.previewImage = event_new.target.result;
-      this.uploadImage();
-    };
-  }
-  // upload audio file
-  uploadImage() {
-    this.uploading = true;
-    this.startUploading = 2;
-    if (this.startUploading === 2) {
-      setTimeout(() => {
-        this.startUploading = 3;
-        setTimeout(() => {
-          this.startUploading = 4;
-        }, 5000);
-      }, 4000);
-    }
+  public chartHovered(e: any): void {
 
-    const formData = new FormData();
-    formData.append('file', this.imageFile);
-    const body = formData;
-    this.apiService.uploadImageFile(body).then((result: any) => {
-      const data = result;
-      this.uploadStart = false;
-      this.startUploading = 1;
-      if (data['code'] === 1) {
-        this.showDetails = true;
-        this.panCardDetails = data['result'];
-        this.jsonData = { name: this.panCardDetails['name'], father: this.panCardDetails['father_name'], date_of_birth: this.panCardDetails['dob'], account_no: this.panCardDetails['pan'], status: 'Successfully processed', created_date: new Date() };
-        this.orginalImage = this.previewImage; // atob(encodeURIComponent(this.panCardDetails['uploaded_image']));
-        this.previewImage = 'data:image/jpeg;base64,' + this.panCardDetails['processed_image'];
-        this.processedImage = 'data:image/jpeg;base64,' + this.panCardDetails['processed_image'];
-      } else {
-        this.removeImage();
-        this.toasterService.pop('error', 'Error', data['message']);
-      }
-    });
   }
-  // remove audio file
-  removeImage() {
-    this.imageFile = null;
-    this.uploadStart = false;
-    this.processing = false;
-    this.fileName = null;
-    this.showDetails = false;
-    this.uploading = false;
-    this.startUploading = 1;
-    this.previewImage = '';
-  }
-
-  tabClick(evt, id) {
-    const tabcontents = document.querySelectorAll('.h-tab .tab-content');
-    for (let i = 0; i < tabcontents.length; i++) {
-      (<HTMLElement>tabcontents[i]).style.display = 'none';
-    }
-    const tablinks = document.querySelectorAll('.h-tab .tab-link');
-    for (let i = 0; i < tablinks.length; i++) {
-      const tablink = <HTMLElement>tablinks[i];
-      tablink.className = tablink.className.replace(' active', '');
-    }
-    document.getElementById(id).style.display = 'block';
-    evt.currentTarget.className += ' active';
-  }
-  vTabClick(evt, id) {
-    const tabcontents = document.querySelectorAll('.v-tab .tab-content');
-    for (let i = 0; i < tabcontents.length; i++) {
-      (<HTMLElement>tabcontents[i]).style.display = 'none';
-    }
-    const tablinks = document.querySelectorAll('.v-tab .tab-link');
-    for (let i = 0; i < tablinks.length; i++) {
-      const tablink = <HTMLElement>tablinks[i];
-      tablink.className = tablink.className.replace(' active', '');
-    }
-    document.getElementById(id).style.display = 'block';
-    evt.currentTarget.className += ' active';
-  }
-
 
 }

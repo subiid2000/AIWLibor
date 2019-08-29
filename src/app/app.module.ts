@@ -30,6 +30,7 @@ import { ConfirmationDialogService } from './containers/confirmation-dialog/conf
 import { UploadFilesComponent } from './views/upload-files/upload-files.component';
 import { NgSelectModule, SELECTION_MODEL_FACTORY } from '@ng-select/ng-select';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
     MatCheckboxModule,
     StoreModule.forRoot(reducers, {}),
     NgSelectModule,
-    FileUploadModule
+    FileUploadModule,
+    ChartsModule
   ],
   providers: [ConfigurationsService, ConfirmationDialogService, PositioningService, ComponentLoaderFactory, ToasterService, KeycloakService, BsModalService,
     AuthGuardService, BsModalRef,  { provide: 'Window',  useValue: window },
