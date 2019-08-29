@@ -25,6 +25,12 @@ import { ConfirmationDialogComponent } from './containers/confirmation-dialog/co
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers';
 import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.component';
+import { BsModalService, BsModalRef, ModalModule, TooltipModule, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { ConfirmationDialogService } from './containers/confirmation-dialog/confirmation-dialog.service';
+import { UploadFilesComponent } from './views/upload-files/upload-files.component';
+import { NgSelectModule, SELECTION_MODEL_FACTORY } from '@ng-select/ng-select';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +46,7 @@ import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.comp
     ContractDashboardComponent,
     ConfirmationDialogComponent,
     AuthorizeuserComponent
+    UploadFilesComponent
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   imports: [
@@ -57,9 +64,11 @@ import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.comp
     MatMenuModule,
     MatCheckboxModule,
     StoreModule.forRoot(reducers, {}),
+    NgSelectModule,
+    FileUploadModule
   ],
-  providers: [ConfigurationsService, ToasterService, KeycloakService,
-    AuthGuardService,
+  providers: [ConfigurationsService, ConfirmationDialogService, PositioningService, ComponentLoaderFactory, ToasterService, KeycloakService, BsModalService,
+    AuthGuardService, BsModalRef,  { provide: 'Window',  useValue: window },
     {
         provide: HTTP_INTERCEPTORS,
         useClass: SecuredHttpInterceptor,

@@ -137,4 +137,21 @@ removeContractById(body) {
       });
 });
 }
+  // Upload multiple document
+  uploadMultipleDocument(body) {
+    const url = constants.apiEndPoints.upload_files;
+    return new Promise(resolve => {
+      this.http.post<CommonResult>(this.apiRoot + '/' + url, body).subscribe(data => {
+          const newData = new CommonResult();
+          newData.status = data['status'];
+          newData.message =  data['message'];
+          newData.code = data['code'];
+          newData.result =  '';
+          resolve(newData);
+      },
+        err => {
+          resolve(this.sessionOutMethod(err));
+        });
+  });
+}
 }
