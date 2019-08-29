@@ -8,6 +8,7 @@ import { constants } from './constant';
 import { CommonResult } from '../models/common.model';
 import * as jQuery from 'jquery';
 import { Promise } from 'core-js';
+import { ContractList, ContractDashboard } from 'src/models/contract.model';
 
 @Injectable({
   providedIn: 'root'
@@ -82,4 +83,58 @@ export class APIService {
       return newData;
     }
   }
+    // GetAllContractList
+    getAllContractList(body) {
+      const url = constants.apiEndPoints.get_all_contract_list;
+      return new Promise(resolve => {
+        this.http.post<CommonResult>(this.apiRoot + '/' + url, body).subscribe(data => {
+            const newData = new CommonResult();
+            newData.status = data['status'];
+            newData.message =  data['message'];
+            newData.code = data['code'];
+            newData.total_records = data['total_records'];
+            newData.current_page = data['current_page'];
+            newData.page_size = data['page_size'];
+            newData.result =  this.jsonConvert.deserialize(data['result'], ContractList);
+            resolve(newData);
+        },
+          err => {
+            resolve(this.sessionOutMethod(err));
+          });
+    });
+  }
+  // ContractCountDashboard
+ getContractCountDashboard() {
+  const url = constants.apiEndPoints.get_contract_count_dashboard;
+  return new Promise(resolve => {
+    this.http.get<CommonResult>(this.apiRoot + '/' + url).subscribe(data => {
+      const newData = new CommonResult();
+      newData.status = '1';
+      newData.message =  'Success';
+      newData.code = 1;
+      newData.result =  this.jsonConvert.deserialize(data['result'], ContractDashboard);
+      resolve(newData);
+    },
+      err => {
+        resolve(this.sessionOutMethod(err));
+      });
+});
+}
+
+removeContractById(body) {
+  const url = constants.apiEndPoints.remove_contract_by_id;
+  return new Promise(resolve => {
+    this.http.post<CommonResult>(this.apiRoot + '/' + url, body).subscribe(data => {
+        const newData = new CommonResult();
+        newData.status = data['status'];
+        newData.message =  data['message'];
+        newData.code = data['code'];
+        newData.result = null;
+        resolve(newData);
+    },
+      err => {
+        resolve(this.sessionOutMethod(err));
+      });
+});
+}
 }
