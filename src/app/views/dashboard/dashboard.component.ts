@@ -3,6 +3,11 @@ import { APIService } from 'src/services';
 import { ToasterService } from 'angular2-toaster';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KeycloakService } from 'src/app/core/auth/keycloak.service';
+import { reduxServices } from 'src/app/store/methods/store_methods.services';
+import { ACTION_LOGIN } from 'src/app/store/actions/storeActions';
+import { UserViewModel } from 'src/models/user.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/Operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +15,7 @@ import { KeycloakService } from 'src/app/core/auth/keycloak.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  private unsubscribe: Subject<any> = new Subject();
   processing = false;
   imageFile: File;
   fileName: any = null;
@@ -22,14 +28,19 @@ export class DashboardComponent implements OnInit {
   orginalImage: any;
   processedImage: any = '';
   jsonData: any;
+  userDetails: UserViewModel;
+  appState: any;
   constructor(private apiService: APIService,
     private domSanitizer: DomSanitizer,
-    private toasterService: ToasterService) { }
+    private stateService: reduxServices,
+    private toasterService: ToasterService) {
+      this.stateService.getLoginState().pipe(takeUntil(this.unsubscribe)).subscribe(state => {
+        this.appState = state;
+      });
+     }
 
   ngOnInit() {
-  if (KeycloakService.isLogged()) {
-      KeycloakService.loadUserProfile();
-    }
+    console.log(this.appState);
   }
 
   changeImageFile(event) {

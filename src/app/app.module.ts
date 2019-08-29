@@ -22,6 +22,9 @@ import { SecuredHttpInterceptor } from './core/interceptor/secured-http.intercep
 import { HelpComponent } from './views/help/help.component';
 import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
 import { ConfirmationDialogComponent } from './containers/confirmation-dialog/confirmation-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.component';
 import { BsModalService, BsModalRef, ModalModule, TooltipModule, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { ConfirmationDialogService } from './containers/confirmation-dialog/confirmation-dialog.service';
 import { UploadFilesComponent } from './views/upload-files/upload-files.component';
@@ -43,6 +46,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HelpComponent,
     ContractDashboardComponent,
     ConfirmationDialogComponent,
+    AuthorizeuserComponent,
     UploadFilesComponent
   ],
   entryComponents: [ ConfirmationDialogComponent ],
@@ -60,6 +64,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatInputModule,
     MatMenuModule,
     MatCheckboxModule,
+    StoreModule.forRoot(reducers, {}),
     NgSelectModule,
     FileUploadModule,
     NgbModule,
