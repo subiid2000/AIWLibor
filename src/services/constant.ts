@@ -4,7 +4,8 @@ export const constants = {
       uploadImage : 'uploadImage',
       get_all_contract_list : 'get_all_contract_list',
       get_contract_count_dashboard: 'get_contract_count_dashboard',
-      remove_contract_by_id: 'remove_contract_by_id'
+      remove_contract_by_id: 'remove_contract_by_id',
+      upload_files : 'upload_files'
     },
     dateformat: {
         generalDateFormat: 'yyyy/MM/dd HH:mm:ss',
