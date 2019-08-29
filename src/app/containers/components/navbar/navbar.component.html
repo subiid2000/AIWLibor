@@ -5,11 +5,6 @@
     </div>
     <div class="right-part">
       <div class="right-part" id="nav-right">
-        <mat-form-field color="#ff0000">
-          <input matInput type="search" placeholder="Search">
-        </mat-form-field>
-        <button mat-mini-fab class="search-btn"><i class="material-icons" style="font-size:18px;">search</i></button>
-        <button mat-icon-button><i class="material-icons icon-btn">dashboard</i></button>
         <button mat-icon-button [matMenuTriggerFor]="menu"><i class="material-icons icon-btn">person</i></button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="logout()">Logout</button>
