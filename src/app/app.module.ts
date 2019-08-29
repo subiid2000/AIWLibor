@@ -45,7 +45,7 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
     HelpComponent,
     ContractDashboardComponent,
     ConfirmationDialogComponent,
-    AuthorizeuserComponent
+    AuthorizeuserComponent,
     UploadFilesComponent
   ],
   entryComponents: [ ConfirmationDialogComponent ],
