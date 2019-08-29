@@ -22,6 +22,8 @@ import { SecuredHttpInterceptor } from './core/interceptor/secured-http.intercep
 import { HelpComponent } from './views/help/help.component';
 import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
 import { ConfirmationDialogComponent } from './containers/confirmation-dialog/confirmation-dialog.component';
+import { BsModalService, BsModalRef, ModalModule, TooltipModule, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { ConfirmationDialogService } from './containers/confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
@@ -53,8 +55,8 @@ import { ConfirmationDialogComponent } from './containers/confirmation-dialog/co
     MatMenuModule,
     MatCheckboxModule
   ],
-  providers: [ConfigurationsService, ToasterService, KeycloakService,
-    AuthGuardService,
+  providers: [ConfigurationsService, ConfirmationDialogService, PositioningService, ComponentLoaderFactory, ToasterService, KeycloakService, BsModalService,
+    AuthGuardService, BsModalRef,  { provide: 'Window',  useValue: window },
     {
         provide: HTTP_INTERCEPTORS,
         useClass: SecuredHttpInterceptor,
