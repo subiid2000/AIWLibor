@@ -1,0 +1,89 @@
+<form [formGroup]="fileUploadForm">
+  <div class="card-body pt-0">
+      <div class="row">
+          <div class="col-md-12 p-0">
+              <div class="radio custRadio">
+                  <label class="mr-4">
+                      <input type="radio" formControlName="uploadType" value="1" (click)="updateUI(true)" checked>
+                      <span>Upload Files</span>
+                  </label>
+                  <label class="mr-4">
+                      <input type="radio" formControlName="uploadType" value="2" (click)="updateUI(false)">
+                      <span>Insert URL</span>
+                  </label>
+              </div>
+              <div id="fileUpload" *ngIf="options">
+                  <file-upload animation="false" formControlName="files" class="upload-frame">
+                      <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+                          <div class="hidediv text-center">
+                              <img src="assets/img/cloud.png" alt="Select File" width="90">
+                              <p>Click here to Upload</p>
+                          </div>
+                      </ng-template>
+                      <ng-template let-i="index" let-file="file" let-control="control" #item>
+                          <div class="file-info">
+                              <div class="sel-file">
+                                  <span class="file-name">{{ file.name }}</span>
+                                  <img src="assets/img/error.png" alt="Delete" (click)="control.removeFile(file)" width="13">
+                              </div>
+                          </div>
+                      </ng-template>
+                  </file-upload>
+              </div>
+              <div id="urlUpload" *ngIf="!options">
+                  <div class="form-group">
+                      <div class="pad15">
+                          <br>
+                          <div class="md-input insertURL">
+                              <input formControlName="fileUrl" class="md-form-control" required="" type="text">
+                              <span class="highlight"></span>
+                              <span class="bar"></span>
+                              <label>Insert URL</label>
+                          </div>
+                          <br>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 p-0">
+              <div class="col-sm-12 p-0">
+                  <div class="form-group modalUploadPop">
+                      <div class="pad15">
+                          <label class="c1">Contract Tag</label>
+                          <div class="md-input">
+                              <ng-select class="md-form-control" formControlName="contractTag" (keydown.enter)="addTag($event)" [clearable]="true" [multiple]="true"
+                                  [items]="tagList" bindLabel="label" bindValue="label" [hideSelected]="true">
+                                  <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                      <span class="ng-value-label">{{item.label}}</span>
+                                      <span class="ng-value-icon" (click)="clear(item)" aria-hidden="true">×</span>
+                                  </ng-template>
+                              </ng-select>
+                              <span class="highlight"></span>
+                              <span class="bar"></span>
+                          </div>
+                          <div class="md-input pt-2">
+                              <textarea class="md-form-control" formControlName="description" id="contract-description" required=""></textarea>
+                              <span class="highlight"></span>
+                              <span class="bar"></span>
+                              <label>Description</label>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal-footer">
+      <div class="pull-right">
+          <button *ngIf="!processing" class="btn btn-brand btn-success btn-sm" (click)="uploadDocument()" type="button">
+              <i class="fa fa-cloud-upload font-1xm"></i>
+              <span> Upload &nbsp;</span>
+          </button>
+          <div class="processing" *ngIf="processing">
+              <button class="btn btn-brand btn-success btn-sm" type="button">
+                  <i class="fa fa-spinner fa-spin"></i> &nbsp;Processing</button>
+          </div>
+      </div>
+  </div>
+</form>
