@@ -6,9 +6,11 @@ import { SettingsComponent } from './views/settings/settings.component';
 import { AuthGuardService as AuthGuard } from './core/guard/auth-guard.service';
 import { HelpComponent } from './views/help/help.component';
 import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
-import { from } from 'rxjs';
+import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.component';
+
 const appRoutes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'authorize', pathMatch: 'full' },
+  { path: 'authorize', component: AuthorizeuserComponent, canActivate: [AuthGuard] },
   {
     path: '',
     component: AdminLayoutComponent,

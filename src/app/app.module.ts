@@ -22,6 +22,9 @@ import { SecuredHttpInterceptor } from './core/interceptor/secured-http.intercep
 import { HelpComponent } from './views/help/help.component';
 import { ContractDashboardComponent } from './views/contract-dashboard/contract-dashboard.component';
 import { ConfirmationDialogComponent } from './containers/confirmation-dialog/confirmation-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+import { AuthorizeuserComponent } from './views/authorizeuser/authorizeuser.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { ConfirmationDialogComponent } from './containers/confirmation-dialog/co
     MsgiconbtnComponent,
     HelpComponent,
     ContractDashboardComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AuthorizeuserComponent
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   imports: [
@@ -51,7 +55,8 @@ import { ConfirmationDialogComponent } from './containers/confirmation-dialog/co
     MatRadioModule,
     MatInputModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    StoreModule.forRoot(reducers, {}),
   ],
   providers: [ConfigurationsService, ToasterService, KeycloakService,
     AuthGuardService,
