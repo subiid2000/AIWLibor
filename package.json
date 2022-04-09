@@ -45,7 +45,7 @@
     "jquery": "3.4.1",
     "json2typescript": "^1.2.3",
     "keycloak-js": "^7.0.0",
-    "moment": "2.24.0",
+    "moment": "2.29.2",
     "ng2-charts": "^2.3.0",
     "ngx-bootstrap": "^5.1.1",
     "perfect-scrollbar": "1.1.0",
